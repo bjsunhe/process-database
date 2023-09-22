@@ -6,12 +6,7 @@ const token = 'eyJhbGciOiJIUzI1NiIsInNpZ25fdHlwZSI6IlNJR04iLCJ0eXAiOiJKV1QifQ.ey
 
 const mysql = require('mysql');
 
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'Cool1234567890-',
-  database: 'bmg'
-});
+
 
 
 
@@ -233,7 +228,12 @@ const axiosConfig = {
   .then(response => {
     // Handle the data from the successful response
     console.log(JSON.stringify(response.data.data.choices));
-
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'Cool1234567890-',
+  database: 'bmg'
+});
 
     connection.connect(err => {
   if (err) {
@@ -261,7 +261,7 @@ const axiosConfig = {
     }
 
     // Close the MySQL connection
-    // connection.end();
+    connection.end();
   });
 });
     
