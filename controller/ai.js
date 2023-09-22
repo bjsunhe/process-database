@@ -3,6 +3,18 @@ const axios = require('axios');
 const url = 'https://open.bigmodel.cn/api/paas/v3/model-api/chatglm_bosch_demo_0921_2/invoke';  
 const token = 'eyJhbGciOiJIUzI1NiIsInNpZ25fdHlwZSI6IlNJR04iLCJ0eXAiOiJKV1QifQ.eyJhcGlfa2V5IjoiNjZlYTA2YmVmNDhkN2E1MDFiOGZhZDdhMTQ5ZTY5ZDgiLCJleHAiOjE3MDA0NzA4NzU5MTYsInRpbWVzdGFtcCI6MTY5NDQyMjg3NTkxNn0.SaT9IWmCYLTRVEJentKsuGXZxLhI9kkNnNg8WsFrdkw';
 
+
+const mysql = require('mysql');
+
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'Cool1234567890-',
+  database: 'bmg'
+});
+
+
+
 let answers = [];
 function getRandomElementFromArray(array) {
   const randomIndex = Math.floor(Math.random() * array.length);
@@ -221,11 +233,38 @@ const axiosConfig = {
   .then(response => {
     // Handle the data from the successful response
     console.log(JSON.stringify(response.data.data.choices));
-    res.status(200).json({
+
+
+    connection.connect(err => {
+  if (err) {
+    console.error('Error connecting to MySQL:', err);
+    return;
+  }
+  console.log('Connected to MySQL');
+
+  // SQL query to select all data from the table
+  const selectQuery = response.data.data.choices[0]['content'].split('"')[1];
+
+  // Execute the select query
+  connection.query(selectQuery, (err, results) => {
+    if (err) {
+      console.error('Error selecting data:', err);
+    } else {
+      console.log('Selected data:');
+      console.log(results); // Log the query results
+
+      res.status(200).json({
       success: "success",
       sql:sql,
-      result:response.data.data.choices[0]['content'].split('"')[1],
+      result:results,
     });
+    }
+
+    // Close the MySQL connection
+    connection.end();
+  });
+});
+    
   })
   .catch(error => {
     // Handle any errors that occurred during the request
