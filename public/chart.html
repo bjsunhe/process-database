@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>D3.js 体积可视化</title>
+    <style>
+      .tooltip {
+        position: absolute;
+        text-align: center;
+        width: 300px;
+        height: 300px;
+        padding: 2px;
+        font: 12px sans-serif;
+        background: lightsteelblue;
+        border: 0px;
+        border-radius: 8px;
+        pointer-events: none;
+      }
+    </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+  </head>
+  <body>
+    <script>
+      // 假设你从数据库中得到的数据如下
+      const rawData = [
+        {
+          _id: "64ed62339a3e407eaf150c9d",
+          process: "dispensing",
+          projectId: "M6000676.040",
+          sap: "0804CL0113",
+          productSize: "45x20x30",
+          description:
+            "1号位置是外壳上料工位。 2号位置是点胶，针头直径di=0.8mm，do=1.0mm; 位置精度+/-0.1mm; NTC 焊盘上点胶量175+/-10mg; 线性点胶量32+/-3mg。 3号位置视觉检测。 4号位置是传感器上料。 5号位置是焊接。 6号位置是下料。",
+          createdAt: "2023-08-29T03:12:51.557Z",
+          updatedAt: "2023-08-29T03:12:51.557Z",
+          __v: 0,
+        },
+        {
+          _id: "64ed62339a3e407eaf150c9e",
+          process: "dispensing",
+          projectId: "M6000895.080",
+          sap: "0804FM9100",
+          productSize: "55x44x50",
+          description:
+            "1号位置为产品上料；2号位置为O型圈上料；3号位置为涂润滑油；4号位置为Gremmet上料；5号位置为O型圈上料；6、7、8号位置为测试；9号位置为压入钢球；10号位置为激光打标；11号位置为下料。",
+          createdAt: "2023-08-29T03:12:51.560Z",
+          updatedAt: "2023-08-29T03:12:51.560Z",
+          __v: 0,
+        },
+        {
+          _id: "64ed62339a3e407eaf150c9f",
+          process: "dispensing",
+          projectId: "M6000990.046",
+          sap: "0804GF0718",
+          productSize: "Φ51x49",
+          description:
+            "1号位置是涂油；2号位置是上料；3号位置是压装；4号位置是AUV安装。",
+          createdAt: "2023-08-29T03:12:51.560Z",
+          updatedAt: "2023-08-29T03:12:51.560Z",
+          __v: 0,
+        },
+        {
+          _id: "64ed62339a3e407eaf150ca2",
+          process: "dispensing",
+          projectId: "M6000888.080",
+          sap: "0804FC2082",
+          productSize: "240x240x360",
+          description:
+            "1号位置是涂润滑油（TMC inlet ports润滑参数要求 0.04g+0.04/+0）",
+          createdAt: "2023-08-29T03:12:51.562Z",
+          updatedAt: "2023-08-29T03:12:51.562Z",
+          __v: 0,
+        },
+        {
+          _id: "64ed62339a3e407eaf150ca3",
+          process: "dispensing",
+          projectId: "M6000888.020",
+          sap: "0804FB5268",
+          productSize: "240x240x360",
+          description:
+            "1号位置是产品直径和深度测量；2号位置是用Hommel控制系统对产品内部进行探测；3号位置是压入钢球；4号位置是对产品的槽进行涂润滑油（涂油速度<=10mm/s,涂油量0.45+/-0.25g，涂油量CMK>=1.67，油的类型为MR25）。SAP号：0804FD0507",
+          createdAt: "2023-08-29T03:12:51.562Z",
+          updatedAt: "2023-08-29T03:12:51.562Z",
+          __v: 0,
+        },
+        {
+          _id: "64ed62339a3e407eaf150ca4",
+          process: "dispensing",
+          projectId: "M6000580.090",
+          sap: "0804BT4923",
+          productSize: "27x27x49.5",
+          description:
+            "1号位置是点胶零位检测； 2号位置是点胶量测试和清洗工序（电子秤Sartorius: SECURA513-1CN）； 3号位置是点胶工序，在传感元上点保护胶，将前个工站上的Bouding用胶水覆盖用以保护（点胶系统Hormec，供胶系统Scheugenpflug）； 4号位置是点胶质量检测。",
+          createdAt: "2023-08-29T03:12:51.563Z",
+          updatedAt: "2023-08-29T03:12:51.563Z",
+          __v: 0,
+        },
+        {
+          _id: "64ed62339a3e407eaf150ca5",
+          process: "dispensing",
+          projectId: "M6000580.030",
+          sap: "0804BT4917",
+          productSize: "80x80x30.5",
+          description:
+            "1号位置是相机拍照检测产品的位置和方向，并进行调整。2号位置是压印，压头通过伺服组成的两轴到托盘处蘸胶，然后再到产品上方压印。3号位置是相机检测压印质量。",
+          createdAt: "2023-08-29T03:12:51.563Z",
+          updatedAt: "2023-08-29T03:12:51.563Z",
+          __v: 0,
+        },
+        {
+          _id: "64ed62339a3e407eaf150ca6",
+          process: "dispensing",
+          projectId: "M6000774.110",
+          sap: "0804EG8875",
+          productSize: "278x173x121",
+          description:
+            "1号位置为涂散热胶，点胶头为Viscotec Typ 3RD10EC。 2号位置为相机检测涂胶效果。",
+          createdAt: "2023-08-29T03:12:51.564Z",
+          updatedAt: "2023-08-29T03:12:51.564Z",
+          __v: 0,
+        },
+        {
+          _id: "64ed62339a3e407eaf150ca7",
+          process: "dispensing",
+          projectId: "M6000832.030",
+          sap: "0804EE1834",
+          productSize: "Φ16x7",
+          description:
+            "1号位置为上料；2号位置为点胶；3号位置为清洁工位；4号位置为UV固化；5号位置为下料；6号位置为相机检测。",
+          createdAt: "2023-08-29T03:12:51.564Z",
+          updatedAt: "2023-08-29T03:12:51.564Z",
+          __v: 0,
+        },
+        {
+          _id: "64ed62339a3e407eaf150ca8",
+          process: "dispensing",
+          projectId: "M6000948.030",
+          sap: "0804FT2339",
+          productSize: "Φ16x7",
+          description:
+            "1号位置为上料；2号位置为点胶；3号位置为清洁工位；4号位置为UV固化；5号位置为下料；6号位置为相机检测。",
+          createdAt: "2023-08-29T03:12:51.564Z",
+          updatedAt: "2023-08-29T03:12:51.564Z",
+          __v: 0,
+        },
+        {
+          _id: "64ed62339a3e407eaf150ca9",
+          process: "dispensing",
+          projectId: "M6000494.050",
+          sap: "0804BL5453",
+          productSize: "56.5x48.5x44",
+          description:
+            "1号位置是上下料；2号位置是点胶“U”型；3号位置是点胶“O”型；4号位置是拾盖及压入外壳；5号位置是错误料捡出。",
+          createdAt: "2023-08-29T03:12:51.565Z",
+          updatedAt: "2023-08-29T03:12:51.565Z",
+          __v: 0,
+        },
+        {
+          _id: "64ed62339a3e407eaf150caa",
+          process: "dispensing",
+          projectId: "M6000878.215",
+          sap: "0804GA4608",
+          productSize: "300x175x88",
+          description:
+            "1号位置为称重（称重传感器称重范围520g，分辨率1mg）、清洁和点胶头零点位置的校准（校准传感器Captron OGLW2-70T4-2PS6）。 2号位置是点胶工位，采用了三轴的电缸带着Bdtronic的点胶机进行点胶（双组份胶，点胶速度约2g/s，每个产品点胶量约54.6g）。 3号位置是检测工位，采用相机对点胶效果进行检测。",
+          createdAt: "2023-08-29T03:12:51.565Z",
+          updatedAt: "2023-08-29T03:12:51.565Z",
+          __v: 0,
+        },
+        {
+          _id: "64ed62339a3e407eaf150cab",
+          process: "dispensing",
+          projectId: "M6000929.090",
+          sap: "0804FK1524",
+          productSize: "196x246x78",
+          description:
+            "1号位置是点胶工位（点胶系统ViscoPro 3RD10-EC）； 2号位置是清洁工位； 3号位置是称重工位； 4号位置是点胶零点校准工位。",
+          createdAt: "2023-08-29T03:12:51.565Z",
+          updatedAt: "2023-08-29T03:12:51.565Z",
+          __v: 0,
+        },
+        {
+          _id: "64ed62339a3e407eaf150cac",
+          process: "dispensing",
+          projectId: "M6000676.020",
+          sap: "0804CL0112",
+          productSize: "56.5x48.5x44",
+          description:
+            "1号位置是上料；2号位置是焊接位置检测；3号位置和4号位置是挤银膏；5号位置是覆盖率检测；6号位置是拾放电容；7号位置是电容装配检查；8号位置是错误件检出。",
+          createdAt: "2023-08-29T03:12:51.565Z",
+          updatedAt: "2023-08-29T03:12:51.565Z",
+          __v: 0,
+        },
+        {
+          _id: "64ed62339a3e407eaf150ca0",
+          process: "dispensing",
+          projectId: "M6000512.020",
+          sap: "0804BB9944",
+          productSize: "Φ18.5x90.5",
+          description: "1号位置为涂油工位",
+          createdAt: "2023-08-29T03:12:51.561Z",
+          updatedAt: "2023-08-29T03:12:51.561Z",
+          __v: 0,
+        },
+        {
+          _id: "64ed62339a3e407eaf150ca1",
+          process: "dispensing",
+          projectId: "M6000718.040",
+          sap: "0804DV4735",
+          productSize: "240x240x360",
+          description:
+            "1号位置为密封圈上料和检测。2号位置为对密封圈将要装入的轴进行润滑。3号位置将密封圈插入轴。",
+          createdAt: "2023-08-29T03:12:51.561Z",
+          updatedAt: "2023-08-29T03:12:51.561Z",
+          __v: 0,
+        },
+      ];
+
+      const calculateVolume = (productSize) => {
+        const dimensions = productSize.split("x").map(Number);
+        return dimensions[0] * dimensions[1] * dimensions[2];
+      };
+
+      const filteredData = rawData.filter(
+        (d) => !d.productSize.startsWith("Φ")
+      );
+      const sortedData = filteredData.sort(
+        (a, b) =>
+          calculateVolume(b.productSize) - calculateVolume(a.productSize)
+      );
+
+      const svg = d3
+        .select("body")
+        .append("svg")
+        .attr("width", 500)
+        .attr("height", 600);
+      const xScale = d3
+        .scaleBand()
+        .range([0, 500])
+        .domain(sortedData.map((d) => d.productSize))
+        .padding(0.1);
+      const yScale = d3
+        .scaleLinear()
+        .range([600, 0])
+        .domain([0, calculateVolume(sortedData[0].productSize)]);
+
+      // 绘制柱子
+      const bars = svg
+        .selectAll(".bar")
+        .data(sortedData)
+        .enter()
+        .append("rect")
+        .attr("class", "bar")
+        .attr("x", (d) => xScale(d.productSize))
+        .attr("y", (d) => yScale(calculateVolume(d.productSize)))
+        .attr("width", xScale.bandwidth())
+        .attr("height", (d) => 600 - yScale(calculateVolume(d.productSize)));
+
+      // 添加 tooltip
+      const tooltip = d3
+        .select("body")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+
+      // 鼠标悬停事件
+      bars
+        .on("mouseover", (event, d) => {
+            console.log(d)
+          tooltip.transition().duration(200).style("opacity", 0.9);
+          tooltip
+            .html(`<p>${d.process}</p></br>
+            <p>${d.productSize}</p></br>
+            <p>${d.projectId}</p></br>`)
+            .style("left", event.pageX + "px")
+            .style("top", event.pageY - 28 + "px");
+        })
+        .on("mouseout", (event, d) => {
+          tooltip.transition().duration(500).style("opacity", 0);
+        });
+    </script>
+  </body>
+</html>

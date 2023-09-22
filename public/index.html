@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .cost{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        #customers {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+}
+    </style>
+</head>
+<body>
+<div id="root">
+
+</div>
+<script>
+
+async function processCount(processName){
+    // const materials=await fetch('http://localhost:8090/api/material-delivery/find-material-by-materialid',{
+    const process=await fetch('http://localhost:8090/api/process/count-process',{
+        method:'POST',
+        headers:{
+            'content-type':'application/json'
+        },
+        body:JSON.stringify({
+            processName
+        })
+    })
+
+    return process.json()
+
+}
+
+processCount('dispensing').then(data=>console.log(data))
+
+async function findMaterialByMaterialId(materialId){
+    // const materials=await fetch('http://localhost:8090/api/material-delivery/find-material-by-materialid',{
+    const materials=await fetch('http://localhost:8090/api/material-delivery/find-material-by-materialid',{
+        method:'POST',
+        headers:{
+            'content-type':'application/json'
+        },
+        body:JSON.stringify({
+            materialId
+        })
+    })
+
+    return materials.json()
+
+}
+
+async function findMaterialByProjectId(projectId){
+    const materials=await fetch('http://localhost:8090/api/material-delivery/find-material-by-projectid',{
+        method:'POST',
+        headers:{
+            'content-type':'application/json'
+        },
+        body:JSON.stringify({
+            projectId
+        })
+    })
+
+    return materials.json()
+}
+
+
+async function bindOplMaterial(opl,material){
+    // const bindOplMaterial= await fetch('http://localhost:8090/api/opl/bind-opl-material',{
+    const bindOplMaterial= await fetch('http://10.8.136.109:8096/api/opl/bind-opl-material',{
+        method:'POST',
+        headers:{
+            'content-type':'application/json'
+        },
+        body:JSON.stringify({
+            opl,
+            material
+        })
+    })
+
+    return bindOplMaterial.json()
+}
+
+
+async function unbindOplMaterial(opl,material){
+    const unbindOplMaterial=await fetch('http://localhost:8090/api/opl/unbind-opl-material',{
+        method:'POST',
+        headers:{
+            'content-type':'application/json'
+        },
+        body:JSON.stringify({
+            opl,
+            material
+        })
+    })
+
+    return unbindOplMaterial.json()
+}
+
+async function findMaterialByOpl(opl){
+    // const materials=await fetch('http://localhost:8090/api/opl/find-material-by-opl',{
+    const materials=await fetch('http://10.8.136.109:8090/api/opl/find-material-by-opl',{
+        method:'POST',
+        headers:{
+            'content-type':'application/json'
+        },
+        body:JSON.stringify({
+            opl
+        })
+    })
+
+    return materials.json()
+}
+
+
+// findMaterialByOpl('54a95bd4-96bf-451c-b491-a086d4cb26f8').then(data=>console.log(data))
+async function addProjectCost(){
+    // const materials=await fetch('http://localhost:8090/api/opl/find-material-by-opl',{
+    const materials=await fetch('http://localhost:8090/api/project-cost/add-project-cost',{
+        method:'POST',
+        headers:{
+            'content-type':'application/json'
+        },
+        body:JSON.stringify({
+            
+        })
+    })
+
+    return materials.json()
+}
+
+
+
+// addProjectCost().then(data=>{
+
+//     let fromPjm=data.fromPjm[0].data
+//     // let fromCtg=data.fromCtg[0].data
+//     let proCo=data.proCo
+//     console.log(fromPjm)
+//     // console.log(fromCtg)
+//     console.log(proCo)
+//     // console.log(proCo[9])
+//     // console.log(proCo[70][0])
+//     // let filteredRawData=fromPjm.filter(d=>d.length===15).filter(d=>d[1].startsWith('M.')).filter(d=>d[2].startsWith('Sum')).map(d=>({
+//     //     'Project':d[1],
+//     //     'PPC-SAP':d[3],
+//     //     'APC SAP +':d[4],
+//     //     'VTHEK FC':d[5],
+//     //     'VTHEK FC':d[6],
+//     //     'Sel':d[7],
+//     //     'VTHEK FC c ':d[8],
+//     //     'VTHEK FC i':d[9]
+//     // }))
+
+//     let filteredRawData=[]
+//     for(let i=1;i<fromPjm.length;i++){
+//         filteredRawData.push({
+//             'Project No.':fromPjm[i][2],
+//             'Description':fromPjm[i][3],
+//             'Target PPC':fromPjm[i][8],
+//             'Plan PPC':fromPjm[i][9],
+//             'IDC Target':fromPjm[i][10],
+//             'Standardization':fromPjm[i][11],
+//             'Cost saving target':fromPjm[i][12],
+//             'Delivery shorten target':fromPjm[i][13],
+//         })
+//     }
+
+//     // let ctgData=[]
+//     // for(let i=1;i<fromCtg.length;i++){
+//     //     ctgData.push({
+//     //         'Project No.':fromCtg[i][0],
+//     //         'Description':fromCtg[i][1],
+//     //         'PPC':fromCtg[i][2],
+//     //         'V-THEK':fromCtg[i][5],
+//     //         'FORCASET SAVING':parseInt(fromCtg[i][2])-parseInt(fromCtg[i][5]),
+//     //         'APC':fromCtg[i][3],
+//     //         'APC+Obligo':parseInt(fromCtg[i][3])+parseInt(fromCtg[i][4]),
+//     //     })  // PPC-VTHEK  = FORCASET SAVING
+//     // }
+//     // console.log(ctgData)
+
+//     let proCoData=[]
+//     for(let i=0;i<proCo.length;i++){
+//         proCoData.push({
+//             'Project No.':proCo[i][0],
+//             'Description':proCo[i][1],
+//             'PPC':proCo[i][50],
+//             'V-THEK':proCo[i][57],
+//             'FORECAST SAVING':parseInt(proCo[i][50])-parseInt(proCo[i][57]),
+//             'APC':proCo[i][53],
+//             'APC+Obligo':parseInt(proCo[i][53])+parseInt(proCo[i][54]),
+//         })  // PPC-VTHEK  = FORECAST SAVING
+//     }
+
+//     console.log(proCoData)
+
+//     // Project  1    |Gewerk   2 |       PPC SAP 3|     APC SAP + 4|      VTHEK FC 5|VTHEK FC 6|Sel 7|VTHEK FC c 8|VTHEK FC i 9
+//                 // <td>${curr['VTHEK FC']}</td>
+//                 // <td>${curr['VTHEK FC']}</td>
+//                 // <td>${curr['Sel']}</td>
+//                 // <td>${curr['VTHEK FC c ']}</td>
+//                 // <td>${curr['VTHEK FC i']}</td>    
+//     // console.log(filteredRawData)
+//     // console.log(ctgData)
+
+//     let combinedProject=[
+//         {
+//             combinedProject:'RBAC_CC_IPB2_assembly_L3',
+//             projectList:['M.6001205','M.6001240']
+//         },
+//         {
+//             combinedProject:'RBAC_CC_IPB2_final_assembly_L4',
+//             projectList:['M.6001241','M.6001242']
+//         },
+//         {
+//             combinedProject:'RBNA_IPB2_final_assembly_line2',
+//             projectList:['M.6001203','M.6001204']
+//         }
+//     ]
+
+//     let combinedProjectList=combinedProject.reduce((acc,curr)=>{
+//         curr.projectList.forEach(id=>acc.push(id))
+//         return acc
+//     },[])
+//     let combined_ctgData=proCoData.filter(d=>combinedProjectList.includes(d['Project No.']))
+//     let not_combined_ctgData=proCoData.filter(d=>!combinedProjectList.includes(d['Project No.']))
+    
+
+
+//     let combined_filteredRawData=filteredRawData.filter(d=>combinedProjectList.includes(d['Project No.']))
+//     let not_combined_filteredRawData=filteredRawData.filter(d=>!combinedProjectList.includes(d['Project No.']))
+    
+    
+//     // combined
+    
+//     let combinedProjectHtml=combinedProject.map(project=>({
+//             combinedProject:project.combinedProject,
+//             projectCtgData:project.projectList.map(p=>combined_ctgData.filter(c_ctgData=>c_ctgData['Project No.']===p)[0]),
+//             projectFilteredRawData:project.projectList.map(p=>combined_filteredRawData.filter(c_filterData=>c_filterData['Project No.']===p)[0]),
+//         })).map(project=>({
+//             combinedProjectName:project.combinedProject,
+//             combinedProjectCtgData:project['projectCtgData'].reduce((acc,curr)=>{
+//                 acc['APC']=parseInt(acc['APC'])+parseInt(curr['APC'])
+//                 acc['APC+Obligo']=parseInt(acc['APC+Obligo'])+parseInt(curr['APC+Obligo'])
+//                 acc['Description']=acc['Description']+'   '+curr['Description']
+//                 acc['FORCAST SAVING']=parseInt(acc['FORCAST SAVING'])+parseInt(curr['FORECAST SAVING'])
+//                 acc['PPC']=parseInt(acc['PPC'])+parseInt(curr['PPC'])
+//                 acc['Project No.']=acc['Project No.']+'  '+curr['Project No.']
+//                 acc['V-THEK']=parseInt(acc['V-THEK'])+parseInt(curr['V-THEK'])
+
+//                 return acc
+
+//             },{
+//                 'APC':0,
+//                 'APC+Obligo':0,
+//                 'Description':'',
+//                 'FORCAST SAVING':0,
+//                 'PPC':0,
+//                 'Project No.':'',
+//                 'V-THEK':0
+//             }),
+//             combinedProjectFilterData:project['projectFilteredRawData'].reduce((acc,curr)=>{
+
+//                 acc['Target PPC']=parseInt(acc['Target PPC'])+parseInt(curr['Target PPC'])
+//                 acc['Project No.']=acc['Project No.']+'  '+curr['Project No.']
+
+//                 return acc
+
+//             },{
+//                 'Target PPC':0,
+//                 'Project No.':''
+//             })
+            
+
+//         })).reduce((acc,curr)=>{
+//             acc+=`
+//             <tr>
+//                 <td>${curr['combinedProjectFilterData']['Project No.']}</td>
+//                 <td>${curr['combinedProjectCtgData']['Description']}</td>
+//                 <td>${curr['combinedProjectFilterData']['Target PPC']}</td>
+//                 <td>${curr['combinedProjectCtgData']['PPC']}</td>
+//                 <td>${curr['combinedProjectCtgData']['V-THEK']}</td>
+//                 <td>${curr['combinedProjectCtgData']['FORCAST SAVING']}</td>
+//                 <td>${curr['combinedProjectCtgData']['APC']}</td>
+//                 <td>${curr['combinedProjectCtgData']['APC+Obligo']}</td>
+//                 <td>${curr['combinedProjectFilterData']['IDC Target']}</td>
+//                 <td>${curr['combinedProjectFilterData']['Standardization']}</td>
+//                 <td>${curr['combinedProjectFilterData']['Cost saving target']}</td>
+//                 <td>${curr['combinedProjectFilterData']['Delivery shorten target']}</td>
+
+
+//             </tr>
+            
+//         `
+//         return acc
+//         },`<table id="customers">
+//   <tr>
+//     <th>Project</th>
+//     <th>Description</th>
+//     <th>Target PPC</th>
+//     <th>PPC</th>
+//     <th>V-THEK</th>
+//     <th>FORECAST SAVING (PPC-VTHEK)</th>
+//     <th>APC</th>
+//     <th>APC+Obligo</th>
+//     <th>IDC target</th>
+    
+//     <th>Standardization</th>
+//     <th>Cost saving target</th>
+//     <th>Delivery shorten target</th>
+//   </tr>`)
+        
+//     console.log(combinedProjectHtml)
+    
+//     // not combined
+//     let constructHtml=not_combined_filteredRawData.reduce((acc,curr)=>{
+//         let PPC=proCoData.filter(d=>d['Project No.']===curr['Project No.'])[0]['PPC']
+//         let APC=proCoData.filter(d=>d['Project No.']===curr['Project No.'])[0]['APC']
+//         let FORECAST_SAVING=proCoData.filter(d=>d['Project No.']===curr['Project No.'])[0]['FORECAST SAVING']
+//         let APCObligo=proCoData.filter(d=>d['Project No.']===curr['Project No.'])[0]['APC+Obligo']
+//         let VTHEK=proCoData.filter(d=>d['Project No.']===curr['Project No.'])[0]['V-THEK']
+        
+//         acc+=`
+//             <tr>
+//                 <td>${curr['Project No.']}</td>
+//                 <td>${curr['Description']}</td>
+//                 <td>${curr['Target PPC']}</td>
+//                 <td>${PPC}</td>
+//                 <td>${VTHEK}</td>
+//                 <td>${FORECAST_SAVING}</td>
+//                 <td>${APC}</td>
+//                 <td>${APCObligo}</td>
+//                 <td>${curr['IDC Target']}</td>
+//                 <td>${curr['Standardization']}</td>
+//                 <td>${curr['Cost saving target']}</td>
+//                 <td>${curr['Delivery shorten target']}</td>
+
+
+//             </tr>
+            
+//         `
+//         return acc
+//     },``)
+// //     <table id="customers">
+// //   <tr>
+// //     <th>Project</th>
+// //     <th>Description</th>
+// //     <th>Target PPC</th>
+// //     <th>PPC</th>
+// //     <th>V-THEK</th>
+// //     <th>FORCASET SAVING (PPC-VTHEK)</th>
+// //     <th>APC</th>
+// //     <th>APC+Obligo</th>
+// //     <th>IDC target</th>
+    
+// //     <th>Standardization</th>
+// //     <th>Cost saving target</th>
+// //     <th>Delivery shorten target</th>
+// //   </tr>
+//     // console.log(constructHtml)
+// document.getElementById('root').innerHTML=(combinedProjectHtml+ constructHtml+   `</table>`)
+
+// })
+
+
+
+
+
+// addProjectCost().then(data=>{
+//     console.log(data)
+//     console.log(data.costList[0].data)
+//     let rawData=data.costList[0].data
+//     console.log(rawData)
+//     let filteredRawData=rawData.filter(d=>d.length===15).filter(d=>d[1].startsWith('M.')).filter(d=>d[2].startsWith('Sum')).map(d=>({
+//         'Project':d[1],
+//         'PPC-SAP':d[3],
+//         'APC SAP +':d[4],
+//         'VTHEK FC':d[5],
+//         'VTHEK FC':d[6],
+//         'Sel':d[7],
+//         'VTHEK FC c ':d[8],
+//         'VTHEK FC i':d[9]
+//     }))
+
+
+
+
+//     // Project  1    |Gewerk   2 |       PPC SAP 3|     APC SAP + 4|      VTHEK FC 5|VTHEK FC 6|Sel 7|VTHEK FC c 8|VTHEK FC i 9
+//                 // <td>${curr['VTHEK FC']}</td>
+//                 // <td>${curr['VTHEK FC']}</td>
+//                 // <td>${curr['Sel']}</td>
+//                 // <td>${curr['VTHEK FC c ']}</td>
+//                 // <td>${curr['VTHEK FC i']}</td>    
+//     console.log(filteredRawData)
+
+//     let constructHtml=filteredRawData.reduce((acc,curr)=>{
+//         acc+=`
+//             <tr>
+//                 <td>${curr['Project']}</td>
+//                 <td>${curr['PPC-SAP']}</td>
+//                 <td>${curr['APC SAP +']}</td>
+//                 <td>--</td>
+//                 <td>--</td>
+//                 <td>--</td>
+//                 <td>--</td>
+//                 <td>--</td>
+//                 <td>--</td>
+
+//             </tr>
+            
+//         `
+//         return acc
+//     },`<table id="customers">
+//   <tr>
+//     <th>Project</th>
+//     <th>PPC-SAP</th>
+//     <th>APC SAP +</th>
+//     <th>Target GM1</th>
+//     <th>Forecast GM1</th>
+//     <th>IDC target</th>
+//     <th>Standardization</th>
+//     <th>Cost saving target</th>
+//     <th>Delivery shorten target</th>
+//   </tr>`)
+//     console.log(constructHtml)
+//     document.getElementById('root').innerHTML=(constructHtml+    `
+
+// </table>`)
+
+// })
+
+
+
+async function findProjectCost(project){
+    // const materials=await fetch('http://localhost:8090/api/opl/find-material-by-opl',{
+    console.log(project)
+    const materials=await fetch('http://localhost:8090/api/project-cost/find-project-cost',{
+        method:'POST',
+        headers:{
+            'content-type':'application/json'
+        },
+        body:JSON.stringify({
+            projectId:project
+        })
+    })
+
+    return materials.json()
+}
+// findProjectCost('M.6000850               ').then(data=>{
+//     console.log(data)
+// })
+
+// findProjectCost('M.6201212               ').then(data=>{
+//     console.log(data)
+//     let total_cost=data.materials.reduce((acc,curr)=>{
+//         return acc+=parseInt(curr.value.trim().replace('.','').replace(',','.'))
+//     },0)
+//     console.log(total_cost)
+// })
+
+
+
+async function getProjectList(){
+    // const materials=await fetch('http://localhost:8090/api/opl/find-material-by-opl',{
+    const materials=await fetch('http://localhost:8090/api/project-cost/get-project-list',{
+        method:'POST',
+        headers:{
+            'content-type':'application/json'
+        },
+        body:JSON.stringify({
+                         
+        })
+    })
+
+    return materials.json()
+}
+
+// getProjectList().then(data=>{
+    
+//     let focusProjects=[...data.list.data]
+//     let items=focusProjects.shift()
+//     let acc_projects=focusProjects.reduce((acc,curr)=>{
+//         let projectObj={}
+//         curr.forEach((item,index)=>{
+//             projectObj[data.list.data[0][index]]=item
+//         })
+//         acc.push(projectObj)
+//         return acc
+//     },[])
+//     console.log(acc_projects,items)
+
+
+//     let projectList=[]
+//     acc_projects.forEach(project=>{
+//         projectList.push(project['Project No.'])
+//     })
+
+//     console.log(projectList)
+//     projectList=['M.6000850               ','C.6000980               ']
+//     projectList.forEach(project=>findProjectCost(project).then(data=>{
+//             console.log(data)
+//             let total_cost=data.materials.reduce((acc,curr)=>{
+//                 return acc+=parseInt(curr.value.trim().replace('.','').replace(',','.'))
+//             },0)
+//             console.log(project,total_cost)
+//         })
+
+//     )
+    
+
+//     // console.log(data.list.data)
+// })
+
+
+// getProjectList().then(data=>{
+//     console.log(data)
+//     data.list.forEach(project=>findProjectCost(project[0])).then(data=>{
+//         console.log(data)
+//         let total_cost=data.materials.reduce((acc,curr)=>{
+//             return acc+=parseFloat(curr.value.trim().replace('.','').replace(',','.'))
+//         },0)
+//         console.log(total_cost)
+//     })
+    
+// })
+
+
+
+// addProjectCost().then(data=>{
+//     console.log(data)
+// })
+
+
+// bindOplMaterial('1','3843.AF2.266').then(data=>{
+//     console.log(JSON.stringify(data,null,2))
+
+// })
+
+// // unbindOplMaterial('1','3843.AF2.266').then(data=>{
+// //     console.log(JSON.stringify(data,null,2))
+
+// // })
+// findMaterialByOpl('1').then(data=>{
+//     console.log(JSON.stringify(data,null,2))
+
+// })
+
+
+// findMaterialByMaterialId('3843.AF2.266').then(data=>{
+//     console.log(JSON.stringify(data,null,2))
+// })
+// findMaterialByProjectId('6601081').then(data=>{
+//     console.log(JSON.stringify(data,null,2))
+// })
+</script>
+</body>
+</html>
