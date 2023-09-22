@@ -224,7 +224,7 @@ const axiosConfig = {
     res.status(200).json({
       success: "success",
       sql:sql,
-      result:response.data.data.choices[0]['content']),
+      result:response.data.data.choices[0]['content'],
     });
   })
   .catch(error => {
