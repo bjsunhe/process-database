@@ -252,6 +252,8 @@ const connection = mysql.createConnection({
     } else {
       console.log('Selected data:');
       console.log(results); // Log the query results
+          connection.end();
+
 
       res.status(200).json({
       success: "success",
@@ -261,7 +263,6 @@ const connection = mysql.createConnection({
     }
 
     // Close the MySQL connection
-    connection.end();
   });
 });
     
