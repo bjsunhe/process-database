@@ -261,7 +261,7 @@ const axiosConfig = {
     }
 
     // Close the MySQL connection
-    connection.end();
+    // connection.end();
   });
 });
     
