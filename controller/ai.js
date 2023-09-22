@@ -1,7 +1,7 @@
 const { Process } = require("../model");
 const axios = require('axios');
 const url = 'https://open.bigmodel.cn/api/paas/v3/model-api/chatglm_bosch_demo_0921_2/invoke';  
-const token = 'eyJhbGciOiJIUzI1NiIsInNpZ25fdHlwZSI6IlNJR04iLCJ0eXAiOiJKV1QifQ.eyJhcGlfa2V5IjoiNjZlYTA2YmVmNDhkN2E1MDFiOGZhZDdhMTQ5ZTY5ZDgiLCJleHAiOjE3MDA0NzA4NzU5MTYsInRpbWVzdGFtcCI6MTY5NDQyMjg3NTkxNn0.SaT9IWmCYLTRVEJentKsuGXZxLhI9kkNnNg8WsFrdkw';
+const token = 'JhbGciOiJIUzI1NiIsInNpZ25fdHlwZSI6IlNJR04iLCJ0eXAiOiJKV1QifQ.eyJhcGlfa2V5IjoiNjZlYTA2YmVmNDhkN2E1MDFiOGZhZDdhMTQ5ZTY5ZDgiLCJleHAiOjE3MDA0NzA4NzU5MTYsInRpbWVzdGFtcCI6MTY5NDQyMjg3NTkxNn0.SaT9IWmCYLTRVEJentKsuGXZxLhI9kkNnNg8WsFrdkw';
 
 
 const mysql = require('mysql');
