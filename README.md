@@ -64,7 +64,7 @@ ALTER USER 'username'@'localhost' IDENTIFIED WITH 'mysql_native_password' BY 'ne
 
 ```
 
-CREATE TABLE table_bosch (process VARCHAR COMMENT '工艺类型，包含dispensing,screwing,forming,welding四种', projectId VARCHAR COMMENT '项目id', sap VARCHAR COMMENT 'sap 编号', productSizeLength INT COMMENT '产品尺寸（长度）, productSizeWidth INT COMMENT '产品尺寸（宽度）, productSizeHeight INT COMMENT '产品尺寸（高度）, description VARCHAR COMMENT '项目描述', supplier VARCHAR COMMENT '供应商', force INT COMMENT '压力', stroke INT COMMENT '行程', speed INT COMMENT '速度')
+CREATE TABLE table_bosch (process VARCHAR COMMENT '工艺类型，包含dispensing,screwing,forming,welding四种', projectId VARCHAR COMMENT '项目id', sap VARCHAR COMMENT 'sap 编号', productSizeLength INT COMMENT '产品尺寸（长度）, productSizeWidth INT COMMENT '产品尺寸（宽度）,  productSizeHeight INT COMMENT '产品尺寸（高度）,  description VARCHAR COMMENT '项目描述',  supplier VARCHAR COMMENT '供应商',  force INT COMMENT '压力', stroke INT COMMENT '行程',  speed INT COMMENT '速度')
 
 ```
 
