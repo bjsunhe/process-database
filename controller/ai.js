@@ -212,7 +212,7 @@ const runMySql=async (req, res, next) => {
   let sql=req.body.sql
   console.log(sql)
   const requestData = {
-    prompt: [{"role": "user", "content": `\n你是一个自然语言转SQL的生成器，根据自然语言直接输出SQL语句，不需要解释。\n表名和表字段如下：CREATE TABLE table_bosch (process VARCHAR COMMENT '工艺类型，包含dispensing,screwing,forming,welding四种', projectId VARCHAR COMMENT '项目id', sap VARCHAR COMMENT 'sap 编号', productSizeLength INT COMMENT '产品尺寸（长度）, productSizeWidth INT COMMENT '产品尺寸（宽度）, productSizeHeight INT COMMENT '产品尺寸（高度）, description VARCHAR COMMENT '项目描述') \n输入自然语言: ${sql}\n输出SQL:\n`}],
+    prompt: [{"role": "user", "content": `\n你是一个自然语言转SQL的生成器，根据自然语言直接输出SQL语句，不需要解释。\n表名和表字段如下：CREATE TABLE table_bosch (process VARCHAR COMMENT '工艺类型，包含dispensing,screwing,forming,welding四种', projectId VARCHAR COMMENT '项目id', sap VARCHAR COMMENT 'sap 编号', productSizeLength INT COMMENT '产品尺寸（长度）, productSizeWidth INT COMMENT '产品尺寸（宽度）, productSizeHeight INT COMMENT '产品尺寸（高度）, description VARCHAR COMMENT '项目描述', supplier VARCHAR COMMENT '供应商', force INT COMMENT '压力', stroke INT COMMENT '行程', speed INT COMMENT '速度') \n输入自然语言: ${sql}\n输出SQL:\n`}],
 
 };
 const axiosConfig = {
