@@ -73,7 +73,7 @@ CREATE TABLE table_bosch (
     productSizeHeight INT COMMENT '产品尺寸（高度）',
     description VARCHAR COMMENT '项目描述',
     supplier VARCHAR COMMENT '供应商',
-    force INT COMMENT '压力',
+    press_force INT COMMENT '压力',
     stroke INT COMMENT '行程',
     speed INT COMMENT '速度'
 );
