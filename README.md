@@ -44,13 +44,19 @@ exit
 ## setup mysql
 
 sudo mysql -u root -p
+```
 
 CREATE DATABASE your_database_name;
+
+```
+
+
 CREATE USER 'your_username'@'localhost' IDENTIFIED BY 'your_password';
 GRANT ALL PRIVILEGES ON your_database_name.* TO 'your_username'@'localhost';
 FLUSH PRIVILEGES;
 
 ALTER USER 'username'@'localhost' IDENTIFIED WITH 'mysql_native_password' BY 'new_password';
+
 
 
 
