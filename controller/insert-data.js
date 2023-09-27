@@ -245,7 +245,7 @@ connection.connect(err => {
     productSizeHeight: 0,
     description: '48V Battery',
     supplier:'Teee',
-    force:88,
+    press_force:88,
     stroke:650,
     speed:100
   },
@@ -258,7 +258,7 @@ connection.connect(err => {
     productSizeHeight: 0,
     description: '48V Battery',
     supplier:'Teee',
-    force:88,
+    press_force:88,
     stroke:650,
     speed:100
   },
@@ -272,7 +272,7 @@ connection.connect(err => {
     productSizeHeight: 27,
     description: 'Trapez (Hmjp)',
     supplier:'Teee',
-    force:200,
+    press_force:200,
     stroke:60,
     speed:250
   },
@@ -286,7 +286,7 @@ connection.connect(err => {
     productSizeHeight: 27,
     description: 'AB10',
     supplier:'KKK',
-    force:20,
+    press_force:20,
     stroke:100,
     speed:0
   }
