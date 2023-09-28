@@ -65,7 +65,7 @@ ALTER USER 'username'@'localhost' IDENTIFIED WITH 'mysql_native_password' BY 'ne
 ```
 
 CREATE TABLE table_bosch (
-    process VARCHAR(255) COMMENT '工艺类型，包含dispensing,screwing,forming,welding四种',
+    process VARCHAR(255) COMMENT '工艺类型，包含dispensing,screwing,forming,welding,press',
     projectId VARCHAR(255) COMMENT '项目id',
     sap VARCHAR(255) COMMENT 'sap 编号',
     productSizeLength INT COMMENT '产品尺寸（长度）',
