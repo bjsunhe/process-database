@@ -8,9 +8,13 @@ router.post('/ai-sql',[],(req,res,next)=>{
     next()
 },aiSql)
 
+// router.post('/run-sql',[],(req,res,next)=>{
+//     next()
+// },runSql)
+
 router.post('/run-sql',[],(req,res,next)=>{
     next()
-},runSql)
+},runMySql)
 
 router.post('/run-mysql',[],(req,res,next)=>{
     next()

@@ -180,7 +180,7 @@ CREATE TABLE festo_round_cylinder (
     Code VARCHAR(255) COMMENT 'Code 8148789',
     DataSheetLink VARCHAR(255) COMMENT 'Datasheet link: https://www.festo.com/de/en/a/download-document/datasheet/8148789',
     MannualLink VARCHAR(255) COMMENT 'Mannual link: https://www.festo.com/media/pim/046/D15000100152046.PDF',
-    ProductLink VARCHAR(255) COMMENT 'https://www.festo.com/de/en/a/8148789',
+    ProductLink VARCHAR(255) COMMENT 'https://www.festo.com/de/en/a/8148789'
 
 );
 
