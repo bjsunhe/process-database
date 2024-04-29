@@ -354,7 +354,7 @@ const runMySql=async (req, res, next) => {
     
   //   ); `},{
   //     "role":"user",
-  //     "content":`Input natural language: ${sql}\nOutput SQL (I only need the pure SQL):\n`
+  //     "content":`Input natural language: ${sql}\nOutput SQL (I only need the pure SQL, don't add any other words or characters):\n`
   
   //   }
   //   ],
