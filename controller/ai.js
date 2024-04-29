@@ -309,6 +309,9 @@ const runMySql=async (req, res, next) => {
   let sql=req.body.sql
   console.log(sql)
 
+  let previousQuestions=req.body.previousQuestions
+  console.log(previousQuestions)
+
 
   // const response = await openai.chat.completions.create({
   //   model: "gpt-4-turbo-2024-04-09",
@@ -352,9 +355,9 @@ const runMySql=async (req, res, next) => {
   //       MannualLink VARCHAR(255) COMMENT 'Mannual link',
   //       ProductLink VARCHAR(255) COMMENT 'ProductLink'
     
-  //   ); `},{
+  //   ); `},{"role":"user","content":`previous questions: ${previousQuestions}`},{
   //     "role":"user",
-  //     "content":`Input natural language: ${sql}\nOutput SQL (I only need the pure SQL, don't add any other words or characters):\n`
+  //     "content":`Input natural language: ${sql}\nOutput SQL (I only need the pure SQL, don't add any other words or characters. Because I want to execute what you give me directly.):\n`
   
   //   }
   //   ],
