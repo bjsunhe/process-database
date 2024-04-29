@@ -368,48 +368,48 @@ const runMySql=async (req, res, next) => {
 
   console.log(response)
 
-  res.status(200).json({
-    message: "success",
-    response,
-  });
+  // res.status(200).json({
+  //   message: "success",
+  //   response,
+  // });
 
-  // const connection = mysql.createConnection({
-  //   host: '127.0.0.1',
-  //   user: 'root',
-  //   password: 'Cool1234567890-',
-  //   database: 'bmg'
-  // });
+  const connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: 'Cool1234567890-',
+    database: 'bmg'
+  });
   
-  // connection.connect(err => {
-  //   if (err) {
-  //     console.error('Error connecting to MySQL:', err);
-  //     return;
-  //   }
-  //   console.log('Connected to MySQL');
+  connection.connect(err => {
+    if (err) {
+      console.error('Error connecting to MySQL:', err);
+      return;
+    }
+    console.log('Connected to MySQL');
   
-  //   // SQL query to select all data from the table
-  //   // const selectQuery = response.data.data.choices[0]['content'].split('"')[1];
+    // SQL query to select all data from the table
+    // const selectQuery = response.data.data.choices[0]['content'].split('"')[1];
   
-  //   // Execute the select query
-  //   connection.query(sql, (err, results) => {
-  //     if (err) {
-  //       console.error('Error selecting data:', err);
-  //     } else {
-  //       console.log('Selected data:');
-  //       console.log(results); // Log the query results
-  //           connection.end();
+    // Execute the select query
+    connection.query(response.choices[0].message.content, (err, results) => {
+      if (err) {
+        console.error('Error selecting data:', err);
+      } else {
+        console.log('Selected data:');
+        console.log(results); // Log the query results
+            connection.end();
   
   
-  //       res.status(200).json({
-  //         success: "success",
-  //         sql:sql,
-  //         result:results,
-  //       });
-  //     }
+        res.status(200).json({
+          success: "success",
+          sql:sql,
+          result:results,
+        });
+      }
   
-  //     // Close the MySQL connection
-  //   });
-  // });
+      // Close the MySQL connection
+    });
+  });
 
 
 
